@@ -5,7 +5,8 @@
 #include "key.h"
 //#include "exti.h"
 //#include "iwdg.h"
-#include "wwdg.h"
+//#include "wwdg.h"
+#include "timer.h"
 
 void keydown(void);
 
@@ -16,10 +17,11 @@ int main()
 	ledinit();
 	LED0=0;
 	delay_ms(500);
-	wwdginit(0x7f,0x5f,3);
+	tim3intinit(4999,7199);
 	while(1)
 	{
-		LED0=1;
+		LED0=!LED0;
+		delay_ms(200);
 	}
 }
 
