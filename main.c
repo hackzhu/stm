@@ -2,6 +2,9 @@
 #include "delay.h"
 #include "led.h"
 #include "beep.h"
+#include "key.h"
+
+void keydown(void);
 
 int main()
 {
@@ -9,15 +12,31 @@ int main()
 	delay_init(72);		//延时初始化
 	ledinit();
 	beepinit();
+	keyinit();
+	keydown();
+}
+
+void keydown(void)
+{
+	u8 key;
 	while(1)
 	{
-	LED0=0;
-	LED1=1;
-	BEEP=1;
-	delay_ms(300);
-	LED0=1;
-	LED1=0;
-	BEEP=0;
-	delay_ms(300);
+		key=keyscan(0);
+		if(key)
+		{
+			switch(key)
+			{
+				case	KEY0PRES:
+					LED0=!LED0;
+					break;
+				case	KEY1PRES:
+					LED1=!LED1;
+					break;
+				case	WKUPPRES:
+					BEEP=!BEEP;
+					break;
+			}
+		}
+		else delay_ms(10);
 	}
 }
