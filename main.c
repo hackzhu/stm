@@ -3,6 +3,7 @@
 #include "led.h"
 #include "beep.h"
 #include "key.h"
+#include "exti.h"
 
 void keydown(void);
 
@@ -12,8 +13,9 @@ int main()
 	delay_init(72);		//延时初始化
 	ledinit();
 	beepinit();
-	keyinit();
-	keydown();
+	extixinit();		//该函数里有keyinit()
+	LED0=0;
+	while(1);
 }
 
 void keydown(void)
