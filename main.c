@@ -3,7 +3,8 @@
 #include "led.h"
 #include "beep.h"
 #include "key.h"
-#include "exti.h"
+//#include "exti.h"
+#include "iwdg.h"
 
 void keydown(void);
 
@@ -12,10 +13,15 @@ int main()
 	Stm32_Clock_Init(9);	//系统时钟设置
 	delay_init(72);		//延时初始化
 	ledinit();
-	beepinit();
-	extixinit();		//该函数里有keyinit()
+	keyinit();
+	delay_ms(500);
+	iwdginit(4,625);
 	LED0=0;
-	while(1);
+	while(1)
+	{
+		if(keyscan(0)==WKUPPRES) iwdgfeed();
+		delay_ms(10);
+	}
 }
 
 void keydown(void)
